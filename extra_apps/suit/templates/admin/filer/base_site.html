@@ -1,10 +1,17 @@
-{% extends "admin/filer/change_form.html" %}
-{% load i18n admin_modify staticfiles %}
+{% extends "admin/base_site.html" %}
+{% load i18n staticfiles %}
+
+{% block extrastyle %}
+    {{ block.super }}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'filer/css/admin_filer.css' %}">
+{% endblock %}
 
 {% block extrahead %}
     {{ block.super }}
 
     {# upload stuff #}
+    {{ media.js }}
     <script type="text/javascript">
         var __jQuery = django.jQuery;
         window.jQuery = (__jQuery) ? __jQuery : window.jQuery || undefined;
@@ -12,12 +19,16 @@
     </script>
     <script src="{% static 'filer/js/libs/class.min.js' %}"></script>
     <script src="{% static 'filer/js/libs/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'filer/js/libs/dropzone.min.js' %}"></script>
+    <script src="{% static 'filer/js/libs/mediator.min.js' %}"></script>
     <script src="{% static 'filer/js/libs/jquery.cookie.min.js' %}"></script>
     <script src="{% static 'filer/js/libs/fileuploader.min.js' %}"></script>
-    <script src="{% static 'filer/js/libs/mediator.min.js' %}"></script>
-    <script src="{% static 'filer/js/libs/retina.min.js' %}"></script>
     <script src="{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
+    <script src="{% static 'filer/js/addons/dropdown-menu.js' %}"></script>
     <script src="{% static 'filer/js/addons/popup_handling.js' %}"></script>
+    <script src="{% static 'filer/js/addons/table-dropzone.js' %}"></script>
+    <script src="{% static 'filer/js/addons/upload-button.js' %}"></script>
+    <script src="{% static 'filer/js/addons/tooltip.js' %}"></script>
     <script src="{% static 'filer/js/addons/focal-point.js' %}"></script>
     <script src="{% static 'filer/js/addons/toggler.js' %}"></script>
     <script src="{% static 'filer/js/base.js' %}"></script>
@@ -28,16 +39,4 @@
         __jQuery = (window.jQuery) ? window.jQuery.noConflict(true) : undefined;
         __$ = __jQuery;
     </script>
-{% endblock %}
-
-{% block object-tools %}
-    {% if change and not is_popup %}
-        <ul class="object-tools">
-            <li><a href="history/" class="historylink">{% trans "History" %}</a></li>
-            {% if has_absolute_url %}
-                <li><a href="../../../r/{{ content_type_id }}/{{ object_id }}/" class="viewsitelink">{% trans "View on site" %}</a></li>
-            {% endif%}
-        </ul>
-    {% endif %}
-    {% include "admin/filer/tools/detail_info.html" with detail=True %}
 {% endblock %}
